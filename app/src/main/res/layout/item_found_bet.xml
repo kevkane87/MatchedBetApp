@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="bet"
+            type="com.example.android.kevkane87.matchedbetapp.MatchedBetDataItem" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/reminderCardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="10dp"
+        android:layout_margin="@dimen/padding_medium">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/back_tint"
+            android:padding="@dimen/padding_medium">
+
+            <TextView
+                android:id="@+id/event_time"
+                style="@style/text_normal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{bet.betStartTime}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/outcome_item" />
+
+            <TextView
+                android:id="@+id/back_odds"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/back_input"
+                android:fontFamily="@font/roboto"
+                android:gravity="center_horizontal"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                app:doubleToString="@{bet.bookiesOdds}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/lay_odds"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/lay_input"
+                android:fontFamily="@font/roboto"
+                android:gravity="center_horizontal"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                app:doubleToString="@{bet.exchangeOdds}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/back_odds" />
+
+            <TextView
+                android:id="@+id/label_rating"
+                style="@style/text_normal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rating:"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/event_time" />
+
+            <TextView
+                android:id="@+id/rating"
+                style="@style/text_normal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                app:calculateRating="@{bet}"
+                app:layout_constraintBaseline_toBaselineOf="@+id/label_rating"
+                app:layout_constraintStart_toEndOf="@+id/label_rating" />
+
+            <TextView
+                android:id="@+id/event_item"
+                style="@style/text_normal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{bet.betEvent}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/bookie_logo" />
+
+            <TextView
+                android:id="@+id/outcome_item"
+                style="@style/text_normal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{bet.betOutcome}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/event_item" />
+
+            <ImageView
+                android:id="@+id/bookie_logo"
+                android:layout_width="80dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="4dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                app:bindBookieLogo="@{bet}"
+                app:layout_constraintBottom_toBottomOf="@+id/back_odds"
+                app:layout_constraintEnd_toStartOf="@+id/back_odds"
+                app:layout_constraintTop_toTopOf="@+id/back_odds" />
+
+            <ImageView
+                android:id="@+id/exch_logo"
+                android:layout_width="80dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="4dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                app:bindExchangeLogo="@{bet}"
+                app:layout_constraintBottom_toBottomOf="@+id/lay_odds"
+                app:layout_constraintEnd_toStartOf="@+id/lay_odds"
+                app:layout_constraintTop_toTopOf="@+id/lay_odds" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

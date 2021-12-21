@@ -1,0 +1,600 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="calculatorViewModel"
+            type="com.example.android.kevkane87.matchedbetapp.calculator.CalculatorViewModel" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/inputCardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/padding_medium"
+            app:cardBackgroundColor="@color/back_tint"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintEnd_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/label_back_bet_stake"
+                    style="@style/text_normal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/back_bet_stake"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/back_bet_stake"
+                    app:layout_constraintEnd_toStartOf="@+id/back_bet_stake" />
+
+                <TextView
+                    android:id="@+id/label_exchange_commission"
+                    style="@style/text_normal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/exchange_commission"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/ex_commission"
+                    app:layout_constraintStart_toEndOf="@+id/ex_commission" />
+
+                <TextView
+                    android:id="@+id/label_back_bet_odds"
+                    style="@style/text_normal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/back_bet_odds"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/back_bet_odds"
+                    app:layout_constraintEnd_toStartOf="@+id/back_bet_odds" />
+
+                <TextView
+                    android:id="@+id/heading_input_details"
+                    style="@style/text_normal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/matched_bet_input_details"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <RadioGroup
+                    android:id="@+id/radioGroupBetType"
+                    android:checkedButton="@={calculatorViewModel.radio_checked}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/heading_input_details">
+
+                    <RadioButton
+                        android:id="@+id/qualifier"
+                        style="@style/text_normal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/margin_normal"
+                        android:layout_weight="1"
+                        android:buttonTint="@color/green_primary"
+                        android:checked="true"
+                        android:text="Qualifier"
+                        android:textColor="@color/white"
+                        android:textSize="10sp" />
+
+                    <RadioButton
+                        android:id="@+id/snr"
+                        style="@style/text_normal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_normal"
+                        android:layout_marginRight="@dimen/margin_normal"
+                        android:layout_weight="1"
+                        android:buttonTint="@color/green_primary"
+                        android:text="SNR"
+                        android:textColor="@color/white"
+                        android:textSize="10sp" />
+
+                    <RadioButton
+                        android:id="@+id/sr"
+                        style="@style/text_normal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_normal"
+                        android:layout_weight="1"
+                        android:buttonTint="@color/green_primary"
+                        android:text="SR"
+                        android:textColor="@color/white"
+                        android:textSize="10sp" />
+                </RadioGroup>
+
+
+                <EditText
+                    android:id="@+id/back_bet_stake"
+                    android:layout_width="75dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/back_input"
+                    android:ems="10"
+                    android:inputType="number|numberDecimal"
+                    android:textColorHighlight="@color/black"
+                    android:textColorLink="@color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="@+id/button_calculate"
+                    app:layout_constraintTop_toBottomOf="@+id/radioGroupBetType" />
+
+                <EditText
+                    android:id="@+id/back_bet_odds"
+                    android:layout_width="75dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/back_input"
+                    android:ems="10"
+                    android:inputType="number|numberDecimal"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="@+id/button_calculate"
+                    app:layout_constraintTop_toBottomOf="@+id/back_bet_stake" />
+
+                <EditText
+                    android:id="@+id/ex_lay_bet_odds"
+                    android:layout_width="75dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/lay_input"
+                    android:ems="10"
+                    android:inputType="number|numberDecimal"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="@+id/button_clear"
+                    app:layout_constraintTop_toBottomOf="@+id/radioGroupBetType" />
+
+                <TextView
+                    android:id="@+id/label_lay_odds"
+                    style="@style/text_normal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/exchange_lay_odds"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/ex_lay_bet_odds"
+                    app:layout_constraintStart_toEndOf="@+id/ex_lay_bet_odds" />
+
+                <EditText
+                    android:id="@+id/ex_commission"
+                    android:layout_width="75dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/lay_input"
+                    android:ems="10"
+                    android:hint="%"
+                    android:inputType="number|numberDecimal"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="@+id/button_clear"
+                    app:layout_constraintTop_toBottomOf="@+id/ex_lay_bet_odds" />
+
+                <Button
+                    android:id="@+id/button_calculate"
+                    android:layout_width="120dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:fontFamily="@font/roboto"
+                    android:text="@string/calculate"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toStartOf="@+id/button_clear"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/back_bet_odds" />
+
+                <Button
+                    android:id="@+id/button_clear"
+                    android:layout_width="120dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/roboto"
+                    android:text="Clear"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/button_calculate"
+                    app:layout_constraintTop_toBottomOf="@+id/ex_commission" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/resultsCardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/padding_medium"
+            app:cardBackgroundColor="@color/back_tint"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintEnd_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/inputCardView">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_results"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layout_input">
+
+                <TextView
+                    android:id="@+id/label_profit_loss"
+                    style="@style/text_normal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="@string/profit_loss"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/label_lay_liability"
+                    app:layout_constraintTop_toBottomOf="@+id/label_lay_liability" />
+
+
+                <TextView
+                    android:id="@+id/lay_liability"
+                    style="@style/text_normal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/back_tint"
+                    android:backgroundTint="@color/back_tint"
+                    android:text="@={`` + calculatorViewModel.layLiability}"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/label_lay_liability"
+                    app:layout_constraintEnd_toEndOf="@+id/lay_stake"
+                    app:layout_constraintStart_toStartOf="@+id/lay_stake" />
+
+                <TextView
+                    android:id="@+id/lay_stake"
+                    style="@style/text_normal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/back_tint"
+                    android:backgroundTint="@color/back_tint"
+                    android:text="@{`` + calculatorViewModel.layStake}"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/label_lay_stake"
+                    app:layout_constraintEnd_toEndOf="@+id/heading_results"
+                    app:layout_constraintStart_toStartOf="@+id/heading_results" />
+
+                <TextView
+                    android:id="@+id/profit"
+                    style="@style/text_normal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/back_tint"
+                    android:backgroundTint="@color/back_tint"
+                    android:text="@={`` + calculatorViewModel.profit}"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/label_profit_loss"
+                    app:layout_constraintEnd_toEndOf="@+id/lay_liability"
+                    app:layout_constraintStart_toStartOf="@+id/lay_liability" />
+
+
+                <TextView
+                    android:id="@+id/heading_results"
+                    style="@style/text_normal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/results"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/label_lay_liability"
+                    style="@style/text_normal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="35dp"
+                    android:text="@string/lay_liability"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toStartOf="@+id/lay_liability"
+                    app:layout_constraintTop_toBottomOf="@+id/label_lay_stake" />
+
+                <TextView
+                    android:id="@+id/label_lay_stake"
+                    style="@style/text_normal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/lay_stake"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="@+id/label_lay_liability"
+                    app:layout_constraintTop_toBottomOf="@+id/heading_results" />
+
+                <Button
+                    android:id="@+id/button_copy"
+                    style="@style/text_normal"
+                    android:layout_width="60dp"
+                    android:layout_height="35dp"
+                    android:layout_marginStart="24dp"
+                    android:text="@string/copy"
+                    android:textSize="8sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/label_lay_stake"
+                    app:layout_constraintStart_toEndOf="@+id/lay_stake"
+                    app:layout_constraintTop_toTopOf="@+id/label_lay_stake" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/detailsCardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/padding_medium"
+            app:cardBackgroundColor="@color/back_tint"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintEnd_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/resultsCardView">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_bet_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <EditText
+                    android:id="@+id/event"
+                    style="@style/text_normal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@color/black"
+                    android:ems="10"
+                    android:inputType="text"
+                    android:text="@={calculatorViewModel.event}"
+                    android:textSize="14sp"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/label_event"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/label_outcome" />
+
+                <EditText
+                    android:id="@+id/bet_outcome"
+                    style="@style/text_normal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@color/black"
+                    android:ems="10"
+                    android:inputType="text"
+                    android:text="@={calculatorViewModel.outcome}"
+                    android:textSize="14sp"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/label_outcome"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/label_outcome" />
+
+                <EditText
+                    android:id="@+id/date_time"
+                    style="@style/text_normal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@color/black"
+                    android:ems="10"
+                    android:inputType="text"
+                    android:text="@={calculatorViewModel.eventTime}"
+                    android:textSize="14sp"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/label_date_time"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/label_outcome" />
+
+                <EditText
+                    android:id="@+id/bookmaker"
+                    style="@style/text_normal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@color/black"
+                    android:ems="10"
+                    android:inputType="text"
+                    android:text="@={calculatorViewModel.bookieName}"
+                    android:textSize="14sp"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/label_bookmaker"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/label_outcome" />
+
+                <EditText
+                    android:id="@+id/exchange"
+                    style="@style/text_normal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@color/black"
+                    android:ems="10"
+                    android:inputType="text"
+                    android:text="@={calculatorViewModel.exchangeName}"
+                    android:textSize="14sp"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/label_exchange"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/label_outcome" />
+
+
+                <TextView
+                    android:id="@+id/heading_bet_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/bet_info"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/label_event"
+                    style="@style/text_normal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/back_tint"
+                    android:text="@string/event"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/heading_bet_info" />
+
+                <TextView
+                    android:id="@+id/label_date_time"
+                    style="@style/text_normal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/date_time"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/label_outcome" />
+
+                <TextView
+                    android:id="@+id/label_outcome"
+                    style="@style/text_normal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/bet_outcome"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/label_event" />
+
+                <TextView
+                    android:id="@+id/label_bookmaker"
+                    style="@style/text_normal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/bookmaker"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/label_date_time" />
+
+                <TextView
+                    android:id="@+id/label_exchange"
+                    style="@style/text_normal"
+                    android:layout_width="58dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="@string/exchange"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/label_bookmaker" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:clickable="true"
+            app:backgroundTint="@color/green_primary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/detailsCardView"
+            app:srcCompat="@android:drawable/ic_menu_save" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_reminder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:clickable="true"
+            android:src="@android:drawable/ic_popup_reminder"
+            app:backgroundTint="@color/green_primary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/detailsCardView" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:clickable="true"
+            android:visibility="gone"
+            app:backgroundTint="@color/green_primary"
+            app:layout_constraintEnd_toStartOf="@+id/fab_save"
+            app:layout_constraintStart_toEndOf="@+id/fab_reminder"
+            app:layout_constraintTop_toBottomOf="@+id/detailsCardView"
+            app:srcCompat="@android:drawable/ic_menu_delete" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</layout>

@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">Matched Bet App</string>
+    <string name="back_bet_stake">Back Bet Stake</string>
+    <string name="back_bet_odds">Back Bet Odds</string>
+    <string name="exchange_lay_odds">Lay Odds</string>
+    <string name="exchange_commission">Lay Commission</string>
+    <string name="lay_stake">Lay Stake</string>
+    <string name="copy">Copy</string>
+    <string name="bet_info">Bet Info</string>
+    <string name="calculate">Calculate</string>
+    <string name="profit_loss">Profit/Loss</string>
+    <string name="event">Event</string>
+    <string name="matched_bet_input_details">Matched Bet Input Details</string>
+    <string name="exchange">Exchange</string>
+    <string name="date_time">Date/Time</string>
+    <string name="bet_outcome">Bet Outcome</string>
+    <string name="bookmaker">Bookmaker</string>
+    <string name="results">Results</string>
+    <string name="lay_liability">Lay Liability</string>
+    <string name="qualifier">Qualifier</string>
+    <string name="snr">SNR</string>
+    <string name="sr">SR</string>
+    <string name="please_enter_bet_input_details">Please enter bet input details</string>
+    <string name="calculator">Calculator</string>
+    <string name="saved_bets">Saved Bets</string>
+    <string name="find_bets">Find Bets</string>
+    <string name="bet_type">Bet Type:</string>
+    <string name="bet_stake">Bet Stake:</string>
+    <string name="outcome">Outcome:</string>
+    <string name="event_">Event:</string>
+
+    <string name="set_reminder_for_bet">Set reminder for bet?</string>
+    <string name="set_reminder">Set reminder</string>
+    <string name="cancel">Cancel</string>
+
+
+
+    <string name="bet_reminder_channel_id" translatable="false">bet_reminder_channel</string>
+    <string name="bet_reminder_channel_name" translatable="true">Bet Reminders</string>
+</resources>
