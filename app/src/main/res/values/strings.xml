@@ -56,5 +56,6 @@
 
     <string name="save_bets_description">Shows a list of the saved bets on the device. Click on the bet to open in calculator.</string>
     <string name="bet_reminder">Bet Reminder</string>
+    <string name="rating">Rating:</string>
 
 </resources>

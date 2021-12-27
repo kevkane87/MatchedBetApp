@@ -121,7 +121,7 @@
                         android:layout_weight="1"
                         android:buttonTint="@color/green_primary"
                         android:checked="true"
-                        android:text="Qualifier"
+                        android:text="@string/qualifier"
                         android:textColor="@color/white"
                         android:textSize="10sp" />
 
@@ -134,7 +134,7 @@
                         android:layout_marginRight="@dimen/margin_normal"
                         android:layout_weight="1"
                         android:buttonTint="@color/green_primary"
-                        android:text="SNR"
+                        android:text="@string/snr"
                         android:textColor="@color/white"
                         android:textSize="10sp" />
 
@@ -146,7 +146,7 @@
                         android:layout_marginLeft="@dimen/margin_normal"
                         android:layout_weight="1"
                         android:buttonTint="@color/green_primary"
-                        android:text="SR"
+                        android:text="@string/sr"
                         android:textColor="@color/white"
                         android:textSize="10sp" />
                 </RadioGroup>
@@ -190,7 +190,7 @@
                     android:layout_marginEnd="@dimen/margin_small"
                     android:background="@drawable/back_input"
                     android:ems="10"
-                    android:hint="£"
+                    android:hint="@string/pounds"
                     android:inputType="number|numberDecimal"
                     android:textColorHighlight="@color/black"
                     android:textColorLink="@color/black"
