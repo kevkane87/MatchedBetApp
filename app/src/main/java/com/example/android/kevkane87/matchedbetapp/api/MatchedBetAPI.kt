@@ -31,7 +31,7 @@ import java.util.concurrent.TimeUnit
         .baseUrl(Constants.BASE_URL)
         .build()
 
-    //interface to connect to NASA API Service
+    //interface to connect to Odds API Service
     interface OddsApiService {
         //coroutine function to retrieve data from API
         @GET("v4/sports/soccer_epl/odds")

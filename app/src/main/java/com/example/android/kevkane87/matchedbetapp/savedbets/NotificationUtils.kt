@@ -16,29 +16,37 @@
 
 package com.example.android.kevkane87.matchedbetapp.savedbets
 
+import android.annotation.SuppressLint
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
+import android.provider.Settings.Global.getString
 import androidx.core.app.NotificationCompat
+import com.example.android.kevkane87.matchedbetapp.Constants
 import com.example.android.kevkane87.matchedbetapp.MainActivity
 import com.example.android.kevkane87.matchedbetapp.MatchedBetDataItem
 //import com.example.android.kevkane87.matchedbetapp.MatchedBetDataItem
 import com.example.android.kevkane87.matchedbetapp.R
+import kotlinx.coroutines.channels.consumesAll
 
 // Notification ID.
 private val NOTIFICATION_ID = 0
-private val REQUEST_CODE = 0
-private val FLAGS = 0
+
 /**
  * Builds and delivers the notification.
  *
  * @param context, activity context.
  */
+@SuppressLint("UnspecifiedImmutableFlag")
 fun NotificationManager.sendNotification(applicationContext: Context, bet: MatchedBetDataItem) {
     // Create the content intent for the notification, which launches
-    // this activity
+    // this activity. Attach bet item in bundle
     val contentIntent = Intent(applicationContext, MainActivity::class.java)
+    val bundle = Bundle()
+    bundle.putSerializable(Constants.REMINDER_ID, bet)
+    contentIntent.putExtra(Constants.REMINDER_ID, bundle)
     val contentPendingIntent = PendingIntent.getActivity(
         applicationContext,
         NOTIFICATION_ID,
@@ -51,18 +59,11 @@ fun NotificationManager.sendNotification(applicationContext: Context, bet: Match
         applicationContext,
         applicationContext.getString(R.string.bet_reminder_channel_id)
     )
-        .setSmallIcon(R.drawable.logo_notfound)
-        .setContentTitle("Bet Reminder")
+        .setSmallIcon(R.drawable.ic_baseline_notifications_24)
+        .setContentTitle(applicationContext.getString(R.string.bet_reminder))
         .setContentText(bet.betEvent)
         .setContentIntent(contentPendingIntent)
         .setAutoCancel(true)
-       // .setStyle(bigPicStyle)
-        //.setLargeIcon(eggImage)*/
-        /*.addAction(
-            R.drawable.egg_icon,
-            applicationContext.getString(R.string.snooze),
-            snoozePendingIntent
-        )*/
         .setPriority(NotificationCompat.PRIORITY_HIGH)
     notify(NOTIFICATION_ID, builder.build())
 }

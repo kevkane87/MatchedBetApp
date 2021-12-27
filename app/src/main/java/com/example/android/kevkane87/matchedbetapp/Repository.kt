@@ -11,6 +11,7 @@ import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import org.json.JSONObject
 
+//repository for accessing database and API service
 class Repository(private val database: BetDatabase) {
 
     suspend fun saveBet(bet: MatchedBetDTO) =
@@ -23,15 +24,6 @@ class Repository(private val database: BetDatabase) {
                 }
             }
 
-
-    suspend fun getBet(id : String): Result<MatchedBetDTO> =
-    withContext(Dispatchers.IO) {
-        return@withContext try {
-            Result.Success(database.betDao.getSavedBet(id))
-        } catch (ex: Exception) {
-            Result.Error(ex.localizedMessage)
-        }
-    }
 
      suspend fun getSavedBets(): Result<List<MatchedBetDTO>> = withContext(Dispatchers.IO){
         withContext(Dispatchers.IO) {
@@ -54,6 +46,7 @@ class Repository(private val database: BetDatabase) {
         }
     }
 
+    //connects to API service in coroutine
     suspend fun refreshFoundBets() {
         withContext(Dispatchers.IO) {
             try {
@@ -71,11 +64,6 @@ class Repository(private val database: BetDatabase) {
             }
         }
     }
-
-    suspend fun deleteFoundBets() =
-        withContext(Dispatchers.IO) {
-            database.betDao.deleteFoundBets()
-        }
 
 
     suspend fun deleteBet(id: String) =

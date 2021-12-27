@@ -49,9 +49,6 @@ class SavedBetsFragment : Fragment(){
         binding.savedBetsRecycler.adapter = SavedBetsAdapter(SavedBetsAdapter.OnClickListener {
             openBetInCalculator(it) })
 
-        createChannel(getString((R.string.bet_reminder_channel_id)),
-            getString(R.string.bet_reminder_channel_name)
-        )
 
         setHasOptionsMenu(true)
 
@@ -78,32 +75,10 @@ class SavedBetsFragment : Fragment(){
         when (item.itemId) {
             R.id.calculator -> findNavController().navigate(R.id.action_savedBetsFragment_to_calculatorFragment)
             R.id.find_bets -> findNavController().navigate(R.id.action_savedBetsFragment_to_findBetsFragment)
+            R.id.help -> findNavController().navigate(R.id.action_savedBetsFragment_to_helpFragment)
 
         }
         return true
-    }
-
-    //function to create notification channel using NotificationManager
-    private fun createChannel(channelId: String, channelName: String) {
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val notificationChannel = NotificationChannel(
-                channelId,
-                channelName,
-                NotificationManager.IMPORTANCE_HIGH
-            )
-
-            notificationChannel.enableLights(true)
-            notificationChannel.lightColor = Color.GREEN
-            notificationChannel.enableVibration(true)
-            notificationChannel.description = getString(R.string.bet_reminder_channel_name)
-
-            val notificationManager = requireActivity().getSystemService(
-                NotificationManager::class.java
-            )
-
-            notificationManager.createNotificationChannel(notificationChannel)
-        }
     }
 
 }

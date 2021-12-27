@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.*
 
+//database model for matched bet
 @Entity(tableName = "bets")
 data class MatchedBetDTO(
 

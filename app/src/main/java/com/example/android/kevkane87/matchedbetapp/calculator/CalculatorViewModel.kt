@@ -16,6 +16,7 @@ class CalculatorViewModel(application: Application) : ViewModel(){
 
     private val repository = Repository(getDatabase(application))
 
+    //Live data properties
     private val _backBetStake = MutableLiveData<Double>()
     val backBetStake: MutableLiveData<Double>
     get()= _backBetStake
@@ -80,11 +81,8 @@ class CalculatorViewModel(application: Application) : ViewModel(){
     val bet: MutableLiveData<MatchedBetDataItem>
         get() = _bet
 
-
-
     init {
-        _radio_checked.postValue(R.id.qualifier)
-        //clear()
+       setRadioButton()
     }
 
     fun clear(){
@@ -105,9 +103,23 @@ class CalculatorViewModel(application: Application) : ViewModel(){
 
     }
 
-    fun setBetDetails(bet: MatchedBetDataItem){
+    //sets radio button for correct bet type
+    fun setRadioButton(){
+        when(_betType.value.toString()){
+            "Qualifier" ->
+                _radio_checked.postValue(R.id.qualifier)
+            "" ->
+                _radio_checked.postValue(R.id.qualifier)
+            "SNR" ->
+                _radio_checked.postValue(R.id.snr)
+            "SR" ->
+                _radio_checked.postValue(R.id.sr)
+        }
 
-        //_backBetStake.value = bet.bookiesStake
+    }
+
+    //sets live data to bet details passed from fragment (bundles)
+    fun setBetDetails(bet: MatchedBetDataItem){
         _backBetOdds.value = bet.bookiesOdds
         _layBetOdds.value = bet.exchangeOdds
         _exchangeCommission.value = bet.exchangeCommission
@@ -117,11 +129,11 @@ class CalculatorViewModel(application: Application) : ViewModel(){
         _outcome.value = bet.betOutcome
         _eventTime.value = bet.betStartTime
         _betType.value = bet.betType
-        setBetType()
+        setRadioButton()
         calculate()
-
     }
 
+    //funcion provides matched bet calculations
     fun calculate() {
 
         when (_betType.value) {
@@ -141,6 +153,7 @@ class CalculatorViewModel(application: Application) : ViewModel(){
                         _layStake.value = Math.round(_layStake.value!! * 100) / 100.0
                         _layLiability.value = Math.round(_layLiability.value!! * 100) / 100.0
                         _profit.value = Math.round(_profit.value!! * 100) / 100.0
+
 
                     }
                 }
@@ -170,7 +183,8 @@ class CalculatorViewModel(application: Application) : ViewModel(){
         }
     }
 
-    fun setBetDetails(event: String, outc: String, date: String, bookie: String, exchange: String){
+    //sets bet info details from fragment
+    fun setBetInfoDetails(event: String, outc: String, date: String, bookie: String, exchange: String){
         _event.value = event
         _outcome.value = outc
         _eventTime.value = date
@@ -178,6 +192,8 @@ class CalculatorViewModel(application: Application) : ViewModel(){
         _exchangeName.value = exchange
     }
 
+
+    //sets bet type from radio group
     fun setBetType(){
         when (_radio_checked.value){
             R.id.qualifier -> _betType.value = "Qualifier"
@@ -186,6 +202,7 @@ class CalculatorViewModel(application: Application) : ViewModel(){
         }
     }
 
+    //returns Matched bet data item
     fun getMatchedBetDataItem(): MatchedBetDataItem
     {
         saveBet()
@@ -206,6 +223,7 @@ class CalculatorViewModel(application: Application) : ViewModel(){
         )
     }
 
+    //delete bet from database
     fun deleteBet(id: String){
         viewModelScope.launch {
             repository.deleteBet((id))
@@ -213,11 +231,10 @@ class CalculatorViewModel(application: Application) : ViewModel(){
     }
 
 
+    //saves bet to database with coroutine
     fun saveBet() {
-
         val rating = _backBetOdds.value!! / _layBetOdds.value!!
         setBetType()
-
         viewModelScope.launch {
             repository.saveBet(
                 MatchedBetDTO(

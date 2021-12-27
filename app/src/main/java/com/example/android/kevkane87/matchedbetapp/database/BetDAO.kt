@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 
+//DAO functions for accessing database
 @Dao
 interface BetDAO {
 

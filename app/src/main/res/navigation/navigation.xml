@@ -14,6 +14,9 @@
         <action
             android:id="@+id/action_calculatorFragment_to_findBetsFragment"
             app:destination="@id/findBetsFragment" />
+        <action
+            android:id="@+id/action_calculatorFragment_to_helpFragment"
+            app:destination="@id/helpFragment" />
     </fragment>
     <activity
         android:id="@+id/mainActivity"
@@ -29,6 +32,9 @@
         <action
             android:id="@+id/action_savedBetsFragment_to_findBetsFragment"
             app:destination="@id/findBetsFragment" />
+        <action
+            android:id="@+id/action_savedBetsFragment_to_helpFragment"
+            app:destination="@id/helpFragment" />
     </fragment>
     <fragment
         android:id="@+id/findBetsFragment"
@@ -40,5 +46,22 @@
         <action
             android:id="@+id/action_findBetsFragment_to_calculatorFragment"
             app:destination="@id/calculatorFragment" />
+        <action
+            android:id="@+id/action_findBetsFragment_to_helpFragment"
+            app:destination="@id/helpFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/helpFragment"
+        android:name="com.example.android.kevkane87.matchedbetapp.help.HelpFragment"
+        android:label="HelpFragment" >
+        <action
+            android:id="@+id/action_helpFragment_to_findBetsFragment"
+            app:destination="@id/findBetsFragment" />
+        <action
+            android:id="@+id/action_helpFragment_to_calculatorFragment"
+            app:destination="@id/calculatorFragment" />
+        <action
+            android:id="@+id/action_helpFragment_to_savedBetsFragment"
+            app:destination="@id/savedBetsFragment" />
     </fragment>
 </navigation>

@@ -6,6 +6,7 @@ import java.io.Serializable
 import java.util.*
 
 
+//domain level model for matched bet
 data class MatchedBetDataItem(
 
     var bookiesStake: Double,

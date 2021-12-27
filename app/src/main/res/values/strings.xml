@@ -21,6 +21,8 @@
     <string name="snr">SNR</string>
     <string name="sr">SR</string>
     <string name="please_enter_bet_input_details">Please enter bet input details</string>
+    <string name="bet_deleted_from_database">Bet deleted from database</string>
+    <string name="lay_stake_copied_to_clipboard">Lay stake copied to clipboard</string>
     <string name="calculator">Calculator</string>
     <string name="saved_bets">Saved Bets</string>
     <string name="find_bets">Find Bets</string>
@@ -33,8 +35,26 @@
     <string name="set_reminder">Set reminder</string>
     <string name="cancel">Cancel</string>
 
+    <string name="percent"> %</string>
+    <string name="pounds">£</string>
+
+
 
 
     <string name="bet_reminder_channel_id" translatable="false">bet_reminder_channel</string>
     <string name="bet_reminder_channel_name" translatable="true">Bet Reminders</string>
+    <string name="help">Help</string>
+
+    <string name="about_heading">About</string>
+
+    <string name="about_description">Matched Bet App is a tool designed to assist with matched betting on mobile devices. The application includes a calculator for matched bet calculations and a bet finding tool to quickly find real-time matched bets for UK bookmakers.</string>
+
+    <string name="calculator_description">Select the type of bet to calculate: \n\u25CF Qualifier\n\u25CF Stake Not Returned (SNR) \n\u25CF Stake Returned (SR) \n\nEnter bookmaker stake, bookmaker odds, exchange lay odds and exchange commission (if applicable). Press the calculate button to calculate the lay stake for placing the lay bet on the exchange. Bet details can be entered for saving bet.\nBet reminder notifications can be set by pressing the reminder button and selecting date and time for reminder.\nSaved bets can be deleted using the delete button, which is visible only when showing a saved bet.
+</string>
+
+    <string name="find_bets_description">Searches real time odds for various UK bookmakers for upcoming English Premier League football games. The bets are shown based on the best rating for matched bet (100% rating = 100% of bookmaker stake retained after playing qualifying matched bet). Click on the bet to open in calculator.</string>
+
+    <string name="save_bets_description">Shows a list of the saved bets on the device. Click on the bet to open in calculator.</string>
+    <string name="bet_reminder">Bet Reminder</string>
+
 </resources>

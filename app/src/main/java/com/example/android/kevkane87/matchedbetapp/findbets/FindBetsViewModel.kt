@@ -20,12 +20,9 @@ class FindBetsViewModel (application: Application) : ViewModel(){
 
      val betList = MutableLiveData<List<MatchedBetDataItem>>()
 
+    //loads found bets from database using coroutine
     fun loadBets() {
-       // showLoading.value = true
         viewModelScope.launch {
-            //interacting with the dataSource has to be through a coroutine
-            //showLoading.postValue(false)
-            //val list = repository.getBets()
             when (val result = repository.getFoundBets()) {
                 is Result.Success<*> -> {
                     val dataList = ArrayList<MatchedBetDataItem>()
@@ -44,23 +41,20 @@ class FindBetsViewModel (application: Application) : ViewModel(){
                             bet.betOutcome!!,
                             bet.profit!!,
                             bet.isSaved!!,
-                            bet.id!!
+                            bet.id
                         )
                     })
                     betList.value = dataList
-                    Log.d(TAG, (betList.value as ArrayList<MatchedBetDataItem>).size.toString())
                 }
                 is Result.Error ->
                     //Toast.makeText(this,"Error",Toast.LENGTH_SHORT).show()
                 Log.e(TAG,"Error getting data")
             }
 
-            //check if no data has to be shown
-            //invalidateShowNoData()
         }
     }
 
-
+    //refreshes data from network API
     fun refreshFoundbets(){
         viewModelScope.launch {
             try {
@@ -72,25 +66,5 @@ class FindBetsViewModel (application: Application) : ViewModel(){
             }
         }
     }
-
-    fun deleteFoundBets(){
-        viewModelScope.launch {
-            try {
-                repository.deleteFoundBets()
-            } catch (networkError: IOException) {
-                Log.e(TAG, "Error")
-            }
-        }
-    }
-
-
-
-
-
-    fun displayBetDetails(bet: MatchedBetDataItem) {
-
-    }
-
-
 }
 private const val TAG = "FindBetsViewModel"

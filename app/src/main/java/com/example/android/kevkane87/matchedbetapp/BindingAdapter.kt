@@ -12,6 +12,9 @@ import com.example.android.kevkane87.matchedbetapp.Constants
 import com.example.android.kevkane87.matchedbetapp.MatchedBetDataItem
 import com.example.android.kevkane87.matchedbetapp.R
 import com.example.android.kevkane87.matchedbetapp.findbets.FindBetsAdapter
+import java.text.DecimalFormat
+import java.text.NumberFormat
+import java.util.*
 
 
 @BindingAdapter("goneIfNotNull")
@@ -21,16 +24,22 @@ fun goneIfNotNull(view: View, it: Any?) {
 
 @BindingAdapter("doubleToString")
 fun doubleToString(textView: TextView, number: Double) {
-    val context = textView.context
-    textView.text = number.toString()
+    val df = DecimalFormat("#.######")
+    textView.text = df.format(number)
 }
+
+@BindingAdapter("doubleToCurrencyString")
+fun doubleToCurrencyString(textView: TextView, number: Double) {
+    val format = NumberFormat.getCurrencyInstance(Locale.UK)
+    textView.text = format.format(number)
+}
+
 
 @BindingAdapter("calculateRating")
 fun calculateRating(textView: TextView, bet: MatchedBetDataItem) {
-    val context = textView.context
     var rating = bet.bookiesOdds / bet.exchangeOdds * 100
     rating = Math.round(rating * 100) / 100.0
-    textView.text = rating.toString()
+    textView.text = rating.toString() + "%"
 }
 
 @BindingAdapter("listDataSaved")
@@ -60,7 +69,7 @@ fun bindBookieLogo(imgView: ImageView, bet: MatchedBetDataItem) {
         Constants.PADDY-> imageUrl = Constants.LOGO_PADDY
         Constants.CORAL -> imageUrl = Constants.LOGO_CORAL
         Constants.WH -> imageUrl = Constants.LOGO_WH
-        Constants.BETFAIR -> imageUrl = Constants.LOGO_BETFAIR
+        Constants.BETFAIR -> imageUrl = Constants.LOGO_BETFAIR_SPORTSBOOK
         Constants.MATCHBOOK -> imageUrl = Constants.LOGO_MATCHBOOK
         Constants.UNIBET -> imageUrl = Constants.LOGO_UNIBET
         Constants.LIVESCORE -> imageUrl = Constants.LOGO_LIVESCORE
@@ -79,7 +88,7 @@ fun bindBookieLogo(imgView: ImageView, bet: MatchedBetDataItem) {
                     RequestOptions()
                         .placeholder(R.drawable.logo_notfound)
                         .dontAnimate()
-                        /*.error(R.drawable.logo_notfound)*/)
+                        .error(R.drawable.logo_notfound))
                 .into(imgView)
         }
     }
@@ -96,7 +105,7 @@ fun bindExchangeLogo(imgView: ImageView, bet: MatchedBetDataItem){
                 RequestOptions()
                 .placeholder(R.drawable.logo_notfound)
                     .dontAnimate()
-                /*.error(R.drawable.logo_notfound)*/)
+                .error(R.drawable.logo_notfound))
             .into(imgView)
     }
 }

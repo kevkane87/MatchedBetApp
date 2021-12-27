@@ -1,10 +1,15 @@
 package com.example.android.kevkane87.matchedbetapp.api
 
+import android.os.Build
+import android.text.format.DateUtils
+import androidx.annotation.RequiresApi
 import com.example.android.kevkane87.matchedbetapp.Constants
 import com.example.android.kevkane87.matchedbetapp.database.MatchedBetDTO
 import org.json.JSONArray
 import org.json.JSONObject
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -20,6 +25,17 @@ fun parseBetsJsonResult(jsonResultArray: JSONArray): ArrayList<MatchedBetDTO> {
         val awayTeam = gameJson.getString("away_team")
         val event = "${homeTeam} v ${awayTeam}"
         val eventTime = gameJson.getString("commence_time")
+        val eventTimeFormatted: String
+
+        eventTimeFormatted = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val formatterInput = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")
+            val dateInput = formatterInput.parse(eventTime)
+            val formatterOutput = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")
+            formatterOutput.format(dateInput)
+        } else{
+            eventTime
+        }
+
         var homeLayOdds = 0.0
         var awayLayOdds = 0.0
         var drawLayOdds = 0.0
@@ -108,7 +124,7 @@ fun parseBetsJsonResult(jsonResultArray: JSONArray): ArrayList<MatchedBetDTO> {
                                 bookie,
                                 """Betfair""",
                                 event,
-                                eventTime,
+                                eventTimeFormatted,
                                 outcome,
                                 0.0,
                                 rating,

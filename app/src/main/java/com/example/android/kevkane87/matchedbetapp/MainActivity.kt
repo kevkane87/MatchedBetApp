@@ -12,4 +12,6 @@ class MainActivity : AppCompatActivity() {
         @Suppress("UNUSED_VARIABLE")
         val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
     }
+
+
 }

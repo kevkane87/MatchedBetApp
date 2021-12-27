@@ -10,4 +10,7 @@
     <item
         android:id="@+id/find_bets"
         android:title="@string/find_bets" />
+    <item
+        android:id="@+id/help"
+        android:title="@string/help" />
 </menu>

@@ -7,7 +7,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
-@Database(entities = [MatchedBetDTO::class], version = 3, exportSchema = false)
+@Database(entities = [MatchedBetDTO::class], version = 1, exportSchema = false)
 abstract class BetDatabase: RoomDatabase() {
 
     abstract val betDao: BetDAO

@@ -29,6 +29,13 @@ import com.example.android.kevkane87.matchedbetapp.databinding.FragmentCalculato
 import com.example.android.kevkane87.matchedbetapp.savedbets.AlarmReceiver
 
 import java.util.*
+import android.content.Intent.getIntent
+import android.graphics.Color
+import android.os.Build
+import android.text.TextWatcher
+import android.widget.RadioGroup
+import androidx.core.widget.doAfterTextChanged
+
 
 class CalculatorFragment: Fragment() {
 
@@ -58,91 +65,71 @@ class CalculatorFragment: Fragment() {
 
         binding.lifecycleOwner = this
 
+        createChannel(getString((R.string.bet_reminder_channel_id)),
+            getString(R.string.bet_reminder_channel_name)
+        )
 
-        arguments
+        var existBundle = false
 
-        if (arguments != null){
+        //check for arguments or bundles passed via intent or navigation
+        val extra = activity?.intent?.extras?.getBundle(Constants.REMINDER_ID)
+        if (extra!=null){
+            existBundle = true
+        }
+        else if(arguments != null){
+            existBundle = true
+        }
+
+        //if bundle exists set bet data
+        if (existBundle){
 
             viewModel.clear()
 
-            val bundle = arguments
+            var bundle = arguments
+            if (bundle==null){
+                bundle = extra
+            }
             val betToDisplay = bundle?.getSerializable(Constants.REMINDER_ID) as MatchedBetDataItem?
-
-            Log.d("log","bundle received " + betToDisplay.toString())
 
             betId = betToDisplay!!.id
 
-            if (betToDisplay!!.isSaved){
-                binding.fabDelete.isVisible = true
+            if (betToDisplay.isSaved){
+                binding.buttonDelete.isVisible = true
             }
 
-                when(betToDisplay!!.betType){
 
-                getString(R.string.qualifier) ->
-                    binding.radioGroupBetType.check(binding.qualifier.id)
-                "" ->
-                    binding.radioGroupBetType.check(binding.qualifier.id)
-                getString(R.string.snr) ->
-                    binding.radioGroupBetType.check(binding.snr.id)
-                getString(R.string.sr) ->
-                    binding.radioGroupBetType.check(binding.sr.id)
+            if (betToDisplay.bookiesStake == 0.0) {
+                binding.backBetStake.text = Editable.Factory.getInstance().newEditable("10")
             }
-
-            binding.backBetStake.text = Editable.Factory.getInstance().newEditable("10")
+            else{
+                binding.backBetStake.text = Editable.Factory.getInstance().newEditable(betToDisplay.bookiesStake.toString())
+            }
             binding.backBetOdds.text = Editable.Factory.getInstance().newEditable(betToDisplay.bookiesOdds.toString())
             binding.exCommission.text = Editable.Factory.getInstance().newEditable(betToDisplay.exchangeCommission.toString())
             binding.exLayBetOdds.text = Editable.Factory.getInstance().newEditable(betToDisplay.exchangeOdds.toString())
 
-            viewModel.setBetDetails(betToDisplay!!)
 
-            viewModel.backBetStake.value =
-                if (binding.backBetStake.text.isEmpty()) 0.0
-                else binding.backBetStake.text.toString().toDouble()
-            viewModel.backBetOdds.value =
-                if (binding.backBetOdds.text.isEmpty()) 0.0
-                else binding.backBetOdds.text.toString().toDouble()
-            viewModel.layBetOdds.value =
-                if (binding.exLayBetOdds.text.isEmpty()) 0.0
-                else binding.exLayBetOdds.text.toString().toDouble()
-            viewModel.exchangeCommission.value =
-                if (binding.exCommission.text.isEmpty()) 0.0
-                else binding.exCommission.text.toString().toDouble()
+            viewModel.setBetDetails(betToDisplay)
 
-            viewModel.setBetType()
-            viewModel.calculate()
+            viewModel.setRadioButton()
+
+            calculate(binding)
         }
         else{
             viewModel.clear()
+            viewModel.setRadioButton()
         }
-
-
 
         binding.buttonCalculate.setOnClickListener{
-
-            viewModel.backBetStake.value =
-                if (binding.backBetStake.text.isEmpty()) 0.0
-                else binding.backBetStake.text.toString().toDouble()
-            viewModel.backBetOdds.value =
-                if (binding.backBetOdds.text.isEmpty()) 0.0
-                else binding.backBetOdds.text.toString().toDouble()
-            viewModel.layBetOdds.value =
-                if (binding.exLayBetOdds.text.isEmpty()) 0.0
-                else binding.exLayBetOdds.text.toString().toDouble()
-            viewModel.exchangeCommission.value =
-                if (binding.exCommission.text.isEmpty()) 0.0
-                else binding.exCommission.text.toString().toDouble()
-
-            viewModel.setBetType()
-            viewModel.calculate()
-
+            calculate(binding)
         }
 
-
-        binding.fabSave.setOnClickListener {
+        //save button
+        binding.buttonSave.setOnClickListener {
 
             if (viewModel.backBetOdds.value != 0.0 && viewModel.backBetOdds.value != 0.0 && viewModel.layBetOdds.value != 0.0) {
 
-                viewModel.setBetDetails(binding.event.text.toString(),
+                viewModel.setBetInfoDetails(binding.event.text.toString(),
                     binding.betOutcome.text.toString(),
                     binding.dateTime.text.toString(),
                     binding.bookmaker.text.toString(),
@@ -158,10 +145,11 @@ class CalculatorFragment: Fragment() {
             }
         }
 
-        binding.fabReminder.setOnClickListener{
+        //reminder button
+        binding.buttonReminder.setOnClickListener{
 
             if (viewModel.backBetOdds.value != 0.0 && viewModel.backBetOdds.value != 0.0 && viewModel.layBetOdds.value != 0.0) {
-                viewModel.getMatchedBetDataItem()
+                calculate(binding)
                 setReminderDialog(viewModel.getMatchedBetDataItem())
             }
             else{
@@ -169,7 +157,8 @@ class CalculatorFragment: Fragment() {
             }
         }
 
-        binding.fabDelete.setOnClickListener{
+        //delete button
+        binding.buttonDelete.setOnClickListener{
 
             viewModel.deleteBet(betId)
             viewModel.clear()
@@ -177,20 +166,24 @@ class CalculatorFragment: Fragment() {
             binding.backBetOdds.text = Editable.Factory.getInstance().newEditable("")
             binding.exCommission.text = Editable.Factory.getInstance().newEditable("")
             binding.exLayBetOdds.text = Editable.Factory.getInstance().newEditable("")
-            Toast.makeText(context, "Bet deleted from database", Toast.LENGTH_SHORT).show()
-            binding.fabDelete.isVisible=false
+            Toast.makeText(context, R.string.bet_deleted_from_database, Toast.LENGTH_SHORT).show()
+            binding.buttonDelete.isVisible=false
 
         }
 
+        //copy button
         binding.buttonCopy.setOnClickListener(){
 
+            var stake = binding.layStake.text
+            stake = stake.drop(1)
             val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clip: ClipData = ClipData.newPlainText("copy_lay_stake", binding.layStake.text)
+            val clip: ClipData = ClipData.newPlainText("copy_lay_stake", stake)
             clipboard.setPrimaryClip(clip)
-            Toast.makeText(context, "Lay stake copied to clipboard", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, stake.toString() + " copied to clipboard", Toast.LENGTH_SHORT).show()
 
         }
 
+        //clear button
         binding.buttonClear.setOnClickListener(){
 
             viewModel.clear()
@@ -198,8 +191,33 @@ class CalculatorFragment: Fragment() {
             binding.backBetOdds.text = Editable.Factory.getInstance().newEditable("")
             binding.exCommission.text = Editable.Factory.getInstance().newEditable("")
             binding.exLayBetOdds.text = Editable.Factory.getInstance().newEditable("")
-            binding.fabDelete.isVisible=false
+            binding.buttonDelete.isVisible=false
 
+        }
+
+        //listeners to calculate for any user input changes
+
+        binding.qualifier.setOnClickListener{
+            calculate(binding)
+        }
+        binding.snr.setOnClickListener{
+            calculate(binding)
+        }
+        binding.sr.setOnClickListener{
+            calculate(binding)
+        }
+
+        binding.backBetStake.doAfterTextChanged {
+            calculate(binding)
+        }
+        binding.backBetOdds.doAfterTextChanged {
+            calculate(binding)
+        }
+        binding.exLayBetOdds.doAfterTextChanged {
+            calculate(binding)
+        }
+        binding.exCommission.doAfterTextChanged {
+            calculate(binding)
         }
 
         setHasOptionsMenu(true)
@@ -208,19 +226,20 @@ class CalculatorFragment: Fragment() {
     }
 
 
-
+    //alarm manager to set for notification trigger
     @SuppressLint("UnspecifiedImmutableFlag")
     private fun setAlarm(bet: MatchedBetDataItem){
 
         alarmMgr = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+        //create intent and attach bet details for reminder
         val intent = Intent(context, AlarmReceiver::class.java)
-        var bundle = Bundle()
+        val bundle = Bundle()
         bundle.putSerializable(Constants.REMINDER_ID, bet)
         intent.putExtra(Constants.REMINDER_ID, bundle)
         alarmIntent = intent.let { intent ->
             PendingIntent.getBroadcast(context, 0, intent, 0)
         }
-        Log.d(TAG, "alarm pending broadcast")
 
         alarmMgr?.set(
             AlarmManager.RTC_WAKEUP,
@@ -228,9 +247,9 @@ class CalculatorFragment: Fragment() {
             alarmIntent
         )
         Toast.makeText(context, "Reminder is set", Toast.LENGTH_SHORT).show()
-        Log.d(TAG, "alarm set" + dateTimeReminder.toString())
     }
 
+    //dialog for setting reminder
     private fun setReminderDialog(bet: MatchedBetDataItem) {
 
         activity?.let {
@@ -257,6 +276,7 @@ class CalculatorFragment: Fragment() {
     }
 
 
+    //get reminder date from user using dialog
     @SuppressLint("ResourceAsColor")
     private fun setDateDialog(bet: MatchedBetDataItem){
 
@@ -266,7 +286,7 @@ class CalculatorFragment: Fragment() {
         val day = c.get(Calendar.DAY_OF_MONTH)
 
         val dpd = DatePickerDialog(requireContext(),R.style.TimePickerTheme, { view, year, monthOfYear, dayOfMonth ->
-            //dateTimeReminder.set(year,monthOfYear,dayOfMonth)
+
             dateTimeReminder.set(Calendar.YEAR,year)
             dateTimeReminder.set(Calendar.MONTH,monthOfYear)
             dateTimeReminder.set(Calendar.DAY_OF_MONTH,dayOfMonth)
@@ -280,6 +300,7 @@ class CalculatorFragment: Fragment() {
 
     }
 
+    //get reminder time from user using dialog
     private fun setTimeDialog(bet: MatchedBetDataItem){
 
         val cal = Calendar.getInstance()
@@ -296,10 +317,31 @@ class CalculatorFragment: Fragment() {
     }
 
 
+    //function to trigger calculation
+    private fun calculate(binding: FragmentCalculatorBinding){
+
+        viewModel.backBetStake.value =
+            if (binding.backBetStake.text.isEmpty()) 0.0
+            else binding.backBetStake.text.toString().toDouble()
+        viewModel.backBetOdds.value =
+            if (binding.backBetOdds.text.isEmpty()) 0.0
+            else binding.backBetOdds.text.toString().toDouble()
+        viewModel.layBetOdds.value =
+            if (binding.exLayBetOdds.text.isEmpty()) 0.0
+            else binding.exLayBetOdds.text.toString().toDouble()
+        viewModel.exchangeCommission.value =
+            if (binding.exCommission.text.isEmpty()) 0.0
+            else binding.exCommission.text.toString().toDouble()
+
+        viewModel.setBetType()
+        viewModel.calculate()
+    }
+
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.setRadioButton()
         viewModel.calculate()
     }
 
@@ -313,9 +355,31 @@ class CalculatorFragment: Fragment() {
         when (item.itemId) {
             R.id.saved_bets -> findNavController().navigate(R.id.action_calculatorFragment_to_savedBetsFragment)
             R.id.find_bets -> findNavController().navigate(R.id.action_calculatorFragment_to_findBetsFragment)
+            R.id.help -> findNavController().navigate(R.id.action_calculatorFragment_to_helpFragment)
         }
         return true
     }
-}
 
-private const val TAG = "CalculatorFragment"
+    //function to create notification channel using NotificationManager
+    private fun createChannel(channelId: String, channelName: String) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val notificationChannel = NotificationChannel(
+                channelId,
+                channelName,
+                NotificationManager.IMPORTANCE_HIGH
+            )
+
+            notificationChannel.enableLights(true)
+            notificationChannel.lightColor = Color.GREEN
+            notificationChannel.enableVibration(true)
+            notificationChannel.description = getString(R.string.bet_reminder_channel_name)
+
+            val notificationManager = requireActivity().getSystemService(
+                NotificationManager::class.java
+            )
+
+            notificationManager.createNotificationChannel(notificationChannel)
+        }
+    }
+}
