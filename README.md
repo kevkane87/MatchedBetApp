@@ -1,13 +1,13 @@
-This Application requires an API key from Odds API. To obtain a free trial key please visit https://the-odds-api.com/#get-access
 
-Api key should be inserted in the Constants file
+# Note: This Application requires an API key from Odds API. To obtain a free trial key please visit https://the-odds-api.com/#get-access. Api key should be inserted in the Constants file
 
-Project Description:
+
+# Project Overview:
 
 ![image](https://user-images.githubusercontent.com/74727584/151005347-97dcb7dc-a38d-4c9b-b470-ffeda8f767af.png)
 
 
-Project Review and Rubric:
+# Project Review and Rubric:
 
 ![image](https://user-images.githubusercontent.com/74727584/151000634-3512a584-37d4-4dd9-a028-5a499f804145.png)
 ![image](https://user-images.githubusercontent.com/74727584/151000837-0ca91680-3d22-41c5-989d-b2be127ff610.png)
