@@ -3,6 +3,9 @@
 
 # Screenshots
 
+![Animation](https://user-images.githubusercontent.com/74727584/153083099-0d4f3e06-1205-4e81-b4b2-495b3a0ec41c.gif)
+
+
 ![image](https://user-images.githubusercontent.com/74727584/153035306-3a414961-fe5e-4349-811c-6355cab61279.png)
 
 
