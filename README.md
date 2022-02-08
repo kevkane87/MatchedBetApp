@@ -1,6 +1,11 @@
 
 # Note: This Application requires an API key from Odds API. To obtain a free trial key please visit https://the-odds-api.com/#get-access. Api key should be inserted in the Constants file
 
+# Screenshots
+
+![image](https://user-images.githubusercontent.com/74727584/153035306-3a414961-fe5e-4349-811c-6355cab61279.png)
+
+
 
 # Project Overview:
 
